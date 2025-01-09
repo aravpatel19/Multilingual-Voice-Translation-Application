@@ -1,19 +1,21 @@
 import gradio as gr
 import openai
 from openai import OpenAI
-import os
 from elevenlabs.client import ElevenLabs
-from elevenlabs import play, VoiceSettings
+from elevenlabs import VoiceSettings
 import uuid
 from pathlib import Path
 
+# List of languages to translate to
 languages = ["Spanish", "Hindi", "Japanese", "French", "German", "Italian"]
+# Voice ID and model ID for the Eleven Labs API
 voice = "9QpnP6IzFuprlUmbvbaP"
 voice_model = "eleven_multilingual_v2"
+# OpenAI model to use for translation
 openai_model = 'gpt-4o-mini'
 
+# Function to translate the voice input to multiple languages
 def voice_to_voice(audio_file):
-    
     # transcribe the audio file
     audio_file = Path(audio_file)
     transcription_response = audio_transcription(audio_file)
@@ -29,6 +31,7 @@ def voice_to_voice(audio_file):
     return tuple(audio_files)
         
 
+# Function to transcribe the audio file
 def audio_transcription(audio_file):
     
     client = OpenAI()
@@ -53,11 +56,13 @@ def audio_transcription(audio_file):
     
     return transcription
     
+# Function to translate the text to the target language
 def text_translation(text, language):
     
     client = OpenAI()
     
     try:
+        # Create a completion using the OpenAI API
         completion = client.chat.completions.create(
             model=openai_model,
             messages=[
@@ -80,6 +85,7 @@ def text_translation(text, language):
     
     return completion.choices[0].message.content
     
+# Function to convert the translated text to speech
 def text_to_speech(text):
     client = ElevenLabs()
     
@@ -116,7 +122,6 @@ audio_input = gr.Audio(
     type='filepath'
 )
 
-languages = ["Spanish", "Japanese", "French", "German", "Italian", "Hindi"]
 language_dropdown = gr.Dropdown(languages, label="Select a language to translate to:")
 
 language_boxes = []
