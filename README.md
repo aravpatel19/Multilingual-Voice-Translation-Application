@@ -12,6 +12,7 @@ This application allows users to speak into the app, and their speech is transla
 - **Supported Languages:** 
   - Spanish
   - Hindi
+  - Arabic
   - Japanese
   - French
   - German
