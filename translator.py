@@ -7,7 +7,7 @@ import uuid
 from pathlib import Path
 
 # List of languages to translate to
-languages = ["Spanish", "Hindi", "Japanese", "French", "German", "Italian"]
+languages = ["Spanish", "Hindi", "Arabic", "Japanese", "French", "German", "Italian"]
 # Voice ID and model ID for the Eleven Labs API
 voice = "9QpnP6IzFuprlUmbvbaP"
 voice_model = "eleven_multilingual_v2"
