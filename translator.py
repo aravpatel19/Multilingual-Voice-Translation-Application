@@ -128,12 +128,9 @@ language_boxes = []
 for language in languages:
     language_boxes.append(gr.Audio(label=language))
 
-demo = gr.Interface(
+app = gr.Interface(
     fn=voice_to_voice,
     inputs=audio_input,
     outputs=language_boxes
 )
-
-if __name__ == "__main__":
-    demo.launch()
     
