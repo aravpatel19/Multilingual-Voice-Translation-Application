@@ -34,8 +34,7 @@ This application allows users to speak into the app, and their speech is transla
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repository.git
-   cd your-repository
+   gh repo clone aravpatel19/Multilingual-Voice-Translation-Application
    ```
 
 2. Install the required dependencies:
