@@ -24,7 +24,7 @@ def voice_to_voice(audio_file):
     audio_files = []
     for language in languages:
         translation = text_translation(text, language)
-        audio_path = Path(text_to_speech(translation))
+        audio_path = Path(text_to_speech(translation, language))
         audio_files.append(audio_path)
     
     print(tuple(audio_files))
@@ -86,7 +86,7 @@ def text_translation(text, language):
     return completion.choices[0].message.content
     
 # Function to convert the translated text to speech
-def text_to_speech(text):
+def text_to_speech(text, language):
     client = ElevenLabs()
     
     # Calling the text_to_speech conversion API with detailed parameters
@@ -104,7 +104,7 @@ def text_to_speech(text):
     )
     
     # Generating a unique file name for the output MP3 file
-    save_file_path = f"./audio-files/{uuid.uuid4()}.mp3"
+    save_file_path = f"./audio-files/{language}-{uuid.uuid4()}.mp3"
     
     # Writing the audio to a file
     with open(save_file_path, "wb") as f:
