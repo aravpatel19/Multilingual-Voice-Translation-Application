@@ -1,4 +1,4 @@
-from translator import app, audio_files
+from translator import app
 import os
 
 if __name__ == "__main__":
