@@ -70,7 +70,7 @@ def text_translation(text, language):
                 {"role": "system",
                             "content": f"""You are a highly precise English-to-{language} translator. Your sole output must be the {language} translation of the given English text in strict JSON format. 
                             {{"translation": "...", "language": "..."}} 
-                            Do not add explanations, commentary, or context. In the translation, you may change some language to ensure the translation is culturally appropriate. Maintain the mood and tone of the original text.
+                            Do not add explanations, commentary, or context. In the translation, you may change some words to ensure the translation is culturally appropriate. Maintain the mood and tone of the original text.
 
                         Example 1:
                         Input: Hello
