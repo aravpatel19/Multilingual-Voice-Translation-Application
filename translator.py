@@ -14,10 +14,11 @@ voice = "9QpnP6IzFuprlUmbvbaP"
 voice_model = "eleven_multilingual_v2"
 # OpenAI model to use for translation
 openai_model = 'gpt-4o-mini'
-audio_files = []
 
 # Function to translate the voice input to multiple languages
 def voice_to_voice(audio_file):
+    
+    audio_files = []
     # transcribe the audio file
     audio_file = Path(audio_file)
     transcription_response = audio_transcription(audio_file)
@@ -133,7 +134,7 @@ def text_translation(text, language):
         # Access specific fields, if needed
         translation = json_object.get('translation', '')
         language = json_object.get('language', '')
-        print(f"Translation: {translation}, Language: {language}")
+        # print(f"Translation: {translation}, Language: {language}")
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON: {e}")
 
@@ -215,7 +216,9 @@ with gr.Blocks() as app:
         audio_input = gr.Audio(
             sources=["microphone"],
             type='filepath',
-            label="Speak Here"
+            label="Speak Here", 
+            container=True,
+            editable=True
         )
     with gr.Row():
         language_boxes = [gr.Audio(label=language) for language in languages]
@@ -226,7 +229,7 @@ with gr.Blocks() as app:
     translate_button.click(
         fn=voice_to_voice,
         inputs=audio_input,
-        outputs=language_boxes
+        outputs=language_boxes, 
     )
     
     # Footer Section
