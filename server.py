@@ -5,7 +5,3 @@ if __name__ == "__main__":
     
     port = int(os.environ.get("PORT", 8080))
     app.launch(server_name="0.0.0.0", server_port=port)
-    
-    for file in audio_files:
-        print(f"Removing {file}")
-        os.remove(f'{file}')
