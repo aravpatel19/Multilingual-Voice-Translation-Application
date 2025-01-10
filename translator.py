@@ -1,10 +1,17 @@
 import gradio as gr
 import openai
-from openai import OpenAI
+import elevenlabs
 from elevenlabs.client import ElevenLabs
 from elevenlabs import VoiceSettings
 import uuid
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+elevenlabs_api_key = os.getenv("ELEVENLABS_API_KEY")
 
 # List of languages to translate to
 languages = ["Spanish", "Hindi", "Arabic", "Japanese", "French", "German", "Italian"]
@@ -13,6 +20,7 @@ voice = "9QpnP6IzFuprlUmbvbaP"
 voice_model = "eleven_multilingual_v2"
 # OpenAI model to use for translation
 openai_model = 'gpt-4o-mini'
+audio_files = []
 
 # Function to translate the voice input to multiple languages
 def voice_to_voice(audio_file):
@@ -21,7 +29,6 @@ def voice_to_voice(audio_file):
     transcription_response = audio_transcription(audio_file)
     text = transcription_response
     
-    audio_files = []
     for language in languages:
         translation = text_translation(text, language)
         audio_path = Path(text_to_speech(translation, language))
@@ -34,7 +41,7 @@ def voice_to_voice(audio_file):
 # Function to transcribe the audio file
 def audio_transcription(audio_file):
     
-    client = OpenAI()
+    client = openai.OpenAI()
     
     try:
         transcription = client.audio.transcriptions.create(
@@ -59,14 +66,50 @@ def audio_transcription(audio_file):
 # Function to translate the text to the target language
 def text_translation(text, language):
     
-    client = OpenAI()
+    client = openai.OpenAI()
     
     try:
         # Create a completion using the OpenAI API
         completion = client.chat.completions.create(
             model=openai_model,
             messages=[
-                {"role": "system", "content": f"You are a translator. Translate the following text into {language}. Maintain the general mood and tone of the text."},
+                {"role": "system",
+                            "content": f"""You are a highly precise English-to-{language} translator. Your sole output must be the {language} translation of the given English text in strict JSON format. 
+                            {{"translation": "...", "language": "..."}} 
+                            Do not add explanations, commentary, or context. In the translation, you may change some language to ensure the translation is culturally appropriate. Maintain the mood and tone of the original text.
+
+                        Example 1:
+                        Input: Hello
+                        Output: {{"translation": "Hola", "language": "Spanish"}}
+                                {{"translation": "नमस्ते", "language": "Hindi"}}
+                                {{"translation": "مرحبا", "language": "Arabic"}}
+                                {{"translation": "こんにちは", "language": "Japanese"}}
+                                {{"translation": "Bonjour", "language": "French"}}
+                                {{"translation": "Hallo", "language": "German"}}
+                                {{"translation": "Ciao", "language": "Italian"}}
+
+                        Example 2:
+                        Input: How are you?
+                        Output: {{"translation": "¿Cómo estás?", "language": "Spanish"}}
+                                {{"translation": "आप कैसे हैं?", "language": "Hindi"}}
+                                {{"translation": "كيف حالك؟", "language": "Arabic"}}
+                                {{"translation": "お元気ですか？", "language": "Japanese"}}
+                                {{"translation": "Comment ça va?", "language": "French"}}
+                                {{"translation": "Wie geht es dir?", "language": "German"}}
+                                {{"translation": "Come stai?", "language": "Italian"}}
+
+                        Example 3:
+                        Input: I love programming.
+                        Output: {{"translation": "Me encanta programar.", "language": "Spanish"}}
+                                {{"translation": "मुझे प्रोग्रामिंग पसंद है।", "language": "Hindi"}}
+                                {{"translation": "أنا أحب البرمجة.", "language": "Arabic"}}
+                                {{"translation": "私はプログラミングが大好きです。", "language": "Japanese"}}
+                                {{"translation": "J'aime programmer.", "language": "French"}}
+                                {{"translation": "Ich liebe Programmieren.", "language": "German"}}
+                                {{"translation": "Adoro programmare.", "language": "Italian"}}
+
+                        Now translate the provided English text."""
+                },
                 {
                     "role": "user",
                     "content": text
@@ -83,11 +126,29 @@ def text_translation(text, language):
         #Handle rate limit error (we recommend using exponential backoff)
         raise gr.Error(f"OpenAI API request exceeded rate limit: {e}")
     
-    return completion.choices[0].message.content
+    import json
+
+    # Assuming `output` contains the string response from the OpenAI API
+    translation = completion.choices[0].message.content
+
+    try:
+        # Convert the string to a JSON object
+        json_object = json.loads(translation)
+        print(json_object)
+        
+        # Access specific fields, if needed
+        translation = json_object.get('translation', '')
+        language = json_object.get('language', '')
+        print(f"Translation: {translation}, Language: {language}")
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+
+    return translation
     
 # Function to convert the translated text to speech
 def text_to_speech(text, language):
-    client = ElevenLabs()
+    
+    client = ElevenLabs(api_key=elevenlabs_api_key)
     
     # Calling the text_to_speech conversion API with detailed parameters
     response = client.text_to_speech.convert(
@@ -134,6 +195,10 @@ demo = gr.Interface(
     outputs=language_boxes
 )
 
+
 if __name__ == "__main__":
     demo.launch()
     
+    for file in audio_files:
+        print(f"Removing {file}")
+        os.remove(f'{file}')
