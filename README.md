@@ -3,6 +3,8 @@
 
 This application allows users to speak into the app, and their speech is translated into multiple languages, providing meaningful and context-aware translations. The application leverages advanced AI tools, including **ElevenLabs** for voice cloning and **OpenAI's GPT-4o-mini** for natural and nuanced translations.
 
+You can try it out here: [Multilingual Voice Translation Application](https://multilingual-voice-translator-aravpatel.azurewebsites.net/)
+
 ---
 
 ## Features
