@@ -6,12 +6,6 @@ from elevenlabs import VoiceSettings
 import uuid
 from pathlib import Path
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-elevenlabs_api_key = os.getenv("ELEVENLABS_API_KEY")
 
 # List of languages to translate to
 languages = ["Spanish", "Hindi", "Arabic", "Japanese", "French", "German", "Italian"]
@@ -148,7 +142,7 @@ def text_translation(text, language):
 # Function to convert the translated text to speech
 def text_to_speech(text, language):
     
-    client = ElevenLabs(api_key=elevenlabs_api_key)
+    client = ElevenLabs()
     
     # Calling the text_to_speech conversion API with detailed parameters
     response = client.text_to_speech.convert(
