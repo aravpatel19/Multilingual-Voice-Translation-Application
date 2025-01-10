@@ -188,7 +188,7 @@ def text_to_speech(text, language):
 # )
 
 # Build the Gradio Interface using Blocks
-with gr.Blocks(css='styles.css') as app:
+with gr.Blocks() as app:
     # Title Section
     gr.Markdown("# Multilingual Voice Translator")
     gr.Markdown("""
