@@ -206,7 +206,7 @@ with gr.Blocks(css='styles.css') as app:
     """)
     gr.Markdown("""
     ### Want to Use Your Own Voice?
-    Clone the [GitHub Repository](https://github.com/your-github-username/your-repository-name) and follow the instructions in the README.  
+    Clone the [GitHub Repository](https://github.com/aravpatel19/Multilingual-Voice-Translation-Application) and follow the instructions in the README.  
     Simply update the **'voice'** value in the code with your ElevenLabs VoiceID.  
     """)
 
