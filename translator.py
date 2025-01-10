@@ -194,11 +194,3 @@ app = gr.Interface(
     inputs=audio_input,
     outputs=language_boxes
 )
-
-
-if __name__ == "__main__":
-    demo.launch()
-    
-    for file in audio_files:
-        print(f"Removing {file}")
-        os.remove(f'{file}')
