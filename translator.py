@@ -14,7 +14,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 elevenlabs_api_key = os.getenv("ELEVENLABS_API_KEY")
 
 # List of languages to translate to
-languages = ["Spanish", "Hindi", "Arabic", "Japanese", "French", "German", "Italian"]
+languages = ["Spanish 🇪🇸", "Hindi 🇮🇳", "Arabic 🇸🇦", "Japanese 🇯🇵", "French 🇫🇷", "German 🇩🇪", "Italian 🇮🇹"]
 # Voice ID and model ID for the Eleven Labs API
 voice = "9QpnP6IzFuprlUmbvbaP"
 voice_model = "eleven_multilingual_v2"
@@ -80,33 +80,33 @@ def text_translation(text, language):
 
                         Example 1:
                         Input: Hello
-                        Output: {{"translation": "Hola", "language": "Spanish"}}
-                                {{"translation": "नमस्ते", "language": "Hindi"}}
-                                {{"translation": "مرحبا", "language": "Arabic"}}
-                                {{"translation": "こんにちは", "language": "Japanese"}}
-                                {{"translation": "Bonjour", "language": "French"}}
-                                {{"translation": "Hallo", "language": "German"}}
-                                {{"translation": "Ciao", "language": "Italian"}}
+                        Output: {{"translation": "Hola", "language": "Spanish 🇪🇸"}}
+                                {{"translation": "नमस्ते", "language": "Hindi 🇮🇳"}}
+                                {{"translation": "مرحبا", "language": "Arabic 🇸🇦"}}
+                                {{"translation": "こんにちは", "language": "Japanese 🇯🇵"}}
+                                {{"translation": "Bonjour", "language": "French 🇫🇷"}}
+                                {{"translation": "Hallo", "language": "German 🇩🇪"}}
+                                {{"translation": "Ciao", "language": "Italian 🇮🇹"}}
 
                         Example 2:
                         Input: How are you?
-                        Output: {{"translation": "¿Cómo estás?", "language": "Spanish"}}
-                                {{"translation": "आप कैसे हैं?", "language": "Hindi"}}
-                                {{"translation": "كيف حالك؟", "language": "Arabic"}}
-                                {{"translation": "お元気ですか？", "language": "Japanese"}}
-                                {{"translation": "Comment ça va?", "language": "French"}}
-                                {{"translation": "Wie geht es dir?", "language": "German"}}
-                                {{"translation": "Come stai?", "language": "Italian"}}
+                        Output: {{"translation": "¿Cómo estás?", "language": "Spanish 🇪🇸"}}
+                                {{"translation": "आप कैसे हैं?", "language": "Hindi 🇮🇳"}}
+                                {{"translation": "كيف حالك؟", "language": "Arabic 🇸🇦"}}
+                                {{"translation": "お元気ですか？", "language": "Japanese 🇯🇵"}}
+                                {{"translation": "Comment ça va?", "language": "French 🇫🇷"}}
+                                {{"translation": "Wie geht es dir?", "language": "German 🇩🇪"}}
+                                {{"translation": "Come stai?", "language": "Italian 🇮🇹"}}
 
                         Example 3:
                         Input: I love programming.
-                        Output: {{"translation": "Me encanta programar.", "language": "Spanish"}}
-                                {{"translation": "मुझे प्रोग्रामिंग पसंद है।", "language": "Hindi"}}
-                                {{"translation": "أنا أحب البرمجة.", "language": "Arabic"}}
-                                {{"translation": "私はプログラミングが大好きです。", "language": "Japanese"}}
-                                {{"translation": "J'aime programmer.", "language": "French"}}
-                                {{"translation": "Ich liebe Programmieren.", "language": "German"}}
-                                {{"translation": "Adoro programmare.", "language": "Italian"}}
+                        Output: {{"translation": "Me encanta programar.", "language": "Spanish 🇪🇸"}}
+                                {{"translation": "मुझे प्रोग्रामिंग पसंद है।", "language": "Hindi 🇮🇳"}}
+                                {{"translation": "أنا أحب البرمجة.", "language": "Arabic 🇸🇦"}}
+                                {{"translation": "私はプログラミングが大好きです。", "language": "Japanese 🇯🇵"}}
+                                {{"translation": "J'aime programmer.", "language": "French 🇫🇷"}}
+                                {{"translation": "Ich liebe Programmieren.", "language": "German 🇩🇪"}}
+                                {{"translation": "Adoro programmare.", "language": "Italian 🇮🇹"}}
 
                         Now translate the provided English text."""
                 },
@@ -178,27 +178,70 @@ def text_to_speech(text, language):
     # Return the path of the saved audio file
     return save_file_path
 
-audio_input = gr.Audio(
-    sources=["microphone"],
-    type='filepath'
-)
+# audio_input = gr.Audio(
+#     sources=["microphone"],
+#     type='filepath'
+# )
 
-language_dropdown = gr.Dropdown(languages, label="Select a language to translate to:")
+# language_boxes = []
+# for language in languages:
+#     language_boxes.append(gr.Audio(label=language))
 
-language_boxes = []
-for language in languages:
-    language_boxes.append(gr.Audio(label=language))
+# demo = gr.Interface(
+#     fn=voice_to_voice,
+#     inputs=audio_input,
+#     outputs=language_boxes
+# )
 
-demo = gr.Interface(
-    fn=voice_to_voice,
-    inputs=audio_input,
-    outputs=language_boxes
-)
+# Build the Gradio Interface using Blocks
+with gr.Blocks(css='styles.css') as demo:
+    # Title Section
+    gr.Markdown("# Multilingual Voice Translator")
+    gr.Markdown("""
+    ## Translate Your Voice Effortlessly  
+    This application enables you to translate your voice into multiple languages with ease.  
+    """)
+    gr.Markdown("""
+    ### Powered by Cutting-Edge Technology
+    - **Translation**: Utilizes the OpenAI API for highly accurate language translations.  
+    - **Text-to-Speech**: Leverages the Eleven Labs API for seamless voice synthesis.  
+    """)
+    gr.Markdown("""
+    ### Personalized Voice Model
+    I used the Voice Cloning features of Eleven Labs to create a unique text-to-speech model of my own voice.  
+    """)
+    gr.Markdown("""
+    ### Want to Use Your Own Voice?
+    Clone the [GitHub Repository](https://github.com/your-github-username/your-repository-name) and follow the instructions in the README.  
+    Simply update the **'voice'** value in the code with your ElevenLabs VoiceID.  
+    """)
 
+    
+    with gr.Row():
+        audio_input = gr.Audio(
+            sources=["microphone"],
+            type='filepath',
+            label="Speak Here"
+        )
+    with gr.Row():
+        language_boxes = [gr.Audio(label=language) for language in languages]
+    
+    translate_button = gr.Button("Translate")
+    
+    # Link inputs and outputs
+    translate_button.click(
+        fn=voice_to_voice,
+        inputs=audio_input,
+        outputs=language_boxes
+    )
+    
+    # Footer Section
+    gr.Markdown("### Created by Arav Patel")
+    gr.Markdown("Email: [aravpatel2319@gmail.com](mailto:aravpatel2319@gmail.com)")
+    gr.Markdown("### [Github Repo](https://github.com/aravpatel19/Multilingual-Voice-Translation-Application)")
+    
+    
+        
 
 if __name__ == "__main__":
     demo.launch()
-    
-    for file in audio_files:
-        print(f"Removing {file}")
-        os.remove(f'{file}')
