@@ -10,13 +10,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Voice ID
+voice = "9QpnP6IzFuprlUmbvbaP"
+
 openai.api_key = os.getenv("OPENAI_API_KEY")
 elevenlabs_api_key = os.getenv("ELEVENLABS_API_KEY")
 
 # List of languages to translate to
 languages = ["Spanish 🇪🇸", "Hindi 🇮🇳", "Arabic 🇸🇦", "Japanese 🇯🇵", "French 🇫🇷", "German 🇩🇪", "Italian 🇮🇹"]
-# Voice ID and model ID for the Eleven Labs API
-voice = "9QpnP6IzFuprlUmbvbaP"
+
+
 voice_model = "eleven_multilingual_v2"
 # OpenAI model to use for translation
 openai_model = 'gpt-4o-mini'
@@ -219,7 +222,7 @@ with gr.Blocks(css='styles.css') as demo:
     
     with gr.Row():
         audio_input = gr.Audio(
-            sources=["microphone"],
+            sources="microphone",
             type='filepath',
             label="Speak Here"
         )
