@@ -9,7 +9,7 @@ You can try it out here: [Multilingual Voice Translation Application](https://mu
 
 ## Features
 
-- **Natural Translations:** Uses OpenAI's GPT-4o-mini for translations that accurately convey the meaning, including idioms and expressions.
+- **Natural Translations:** Uses OpenAI's GPT-4o-mini for translations that accurately convey the meaning, including idioms and expressions of the culture.
 - **Voice Cloning:** Utilizes ElevenLabs to clone "Arav's Voice," ensuring translations sound natural and authentic.
 - **Supported Languages:** 
   - Spanish
